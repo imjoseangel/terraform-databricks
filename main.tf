@@ -24,6 +24,10 @@ data "databricks_spark_version" "main" {
   long_term_support = true
 }
 
+data "databricks_group" "main" {
+  display_name = "admins"
+}
+
 resource "databricks_cluster" "main" {
   cluster_name            = "main"
   spark_version           = data.databricks_spark_version.main.id
@@ -38,6 +42,18 @@ resource "databricks_cluster" "main" {
   is_pinned = true
 }
 
-data "databricks_group" "main" {
-  display_name = "admins"
+resource "databricks_workspace_conf" "main" {
+  custom_config = {
+    "enableIpAccessLists" : true
+  }
+}
+
+resource "databricks_ip_access_list" "main" {
+  label     = "allow_in"
+  list_type = "ALLOW"
+  ip_addresses = [
+    "1.2.3.0/24",
+    "1.2.5.0/24"
+  ]
+  depends_on = [databricks_workspace_conf.main]
 }
