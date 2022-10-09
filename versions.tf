@@ -4,7 +4,12 @@ terraform {
       source  = "databricks/databricks"
       version = "1.4.0"
     }
+    external = {
+      source  = "hashicorp/external"
+      version = "2.2.2"
+    }
   }
+  required_version = ">= 1.0"
 }
 
 provider "databricks" {
