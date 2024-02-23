@@ -2,7 +2,7 @@ terraform {
   required_providers {
     databricks = {
       source  = "databricks/databricks"
-      version = "1.36.2"
+      version = "1.37.1"
     }
     external = {
       source  = "hashicorp/external"
